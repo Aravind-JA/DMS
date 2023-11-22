@@ -34,6 +34,16 @@ async function GetUserFiles(req, res) {
     }
 }
 
+async function GetFolderFiles(req, res) {
+    try {
+        const folder = req.params.id;
+        const files = await File.find({ folder });
+        res.status(200).json(files);
+    } catch (error) {
+        res.status(400).json(error);
+    }
+}
+
 async function PostUserFiles(req, res) {
     single.single('content')(req, res, async (err) => {
         if (err instanceof multer.MulterError) {
@@ -42,8 +52,7 @@ async function PostUserFiles(req, res) {
             res.status(500).send({ error: { message: `unknown uploading error: ${err.message}` } });
         } else {
             try {
-                const owner = req.params.owner;
-                const { name, folder } = req.body;
+                const { name, owner, folder } = req.body;
 
                 if (!name || !owner) {
                     return res.status(409).json({ message: "All fields are mandatory" });
@@ -53,7 +62,6 @@ async function PostUserFiles(req, res) {
                 const Body = { name, content, owner, folder };
                 const newFile = await File.create(Body);
                 res.status(200).json(newFile);
-
             } catch (error) {
                 res.status(400).json(error);
             }
@@ -98,4 +106,4 @@ function deleteFiles(file) {
     }
 }
 
-module.exports = { GetFiles, GetOneFile, GetUserFiles, PostUserFiles, DeleteFile, MoveFile };
+module.exports = { GetFiles, GetOneFile, GetUserFiles, GetFolderFiles, PostUserFiles, DeleteFile, MoveFile };
