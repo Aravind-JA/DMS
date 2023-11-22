@@ -2,7 +2,7 @@ const { Schema, model } = require('mongoose');
 
 const fileSchema = new Schema({
     name: { type: String, required: true },
-    content: { type: String },
+    content: { type: String, required: true },
     owner: { type: Schema.Types.ObjectId, ref: 'User', required: true },
     folder: { type: Schema.Types.ObjectId, ref: 'Folder' },
 });
