@@ -41,7 +41,6 @@ async function DeleteFolder(req, res) {
 
 async function EditFolder(req, res) {
     try {
-        console.log(req.body);
         const id = req.params.id;
         const body = req.body;
         const updatedFolder = await Folder.findByIdAndUpdate(id, body, { new: true });
