@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+  service1:
+    build:
+      context: ./UserService
+    ports:
+      - "3001:3001"
+
+  service2:
+    build:
+      context: ./FileService
+    ports:
+      - "3002:3002"
+
+  service3:
+    build:
+      context: ./FolderService
+    ports:
+      - "3003:3003"
+
+  api-gateway:
+    build:
+      context: ./Gateway
+    ports:
+      - "5000:5000"
